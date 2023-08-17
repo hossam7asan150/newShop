@@ -6,15 +6,16 @@ import Rating from "../components/Rating";
 import { useState, useEffect } from "react";
 import axios from "axios";
 const ProductScreen = () => {
-   const [product, setProduct] = useState([]);
-   const { id } = useParams();
+   const [product, setProduct] = useState({});
+   const { id: productId } = useParams();
+   console.log(productId);
    useEffect(() => {
       const fetchProduct = async () => {
-         const { data } = await axios.get(`/api/products/${id}`);
+         const { data } = await axios.get(`/api/products/${productId}`);
          setProduct(data);
       };
       fetchProduct();
-   }, [id]);
+   }, [productId]);
 
    return (
       <>
