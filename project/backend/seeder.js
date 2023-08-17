@@ -1,14 +1,13 @@
 import mongoose from "mongoose";
+import colors from "colors";
 
 import dotenv from "dotenv";
 dotenv.config();
 
-import Products from "./models/productModel.js";
-import products from "./data/products.js";
 import User from "./models/userModel.js";
 import users from "./data/users.js";
-import Order from "./models/orderModel.js";
-import orders from "./data/orders.js";
+import Products from "./models/productModel.js";
+import products from "./data/products.js";
 
 import connectDB from "./config/db.js";
 connectDB(); // connect to MongoDB
@@ -18,10 +17,16 @@ const importData = async () => {
       await User.deleteMany();
       await Products.deleteMany();
 
-      const createdProducts = await Products.insertMany(products);
       const createdUsers = await User.insertMany(users);
+      const adminUser = createdUsers[0]._id;
 
-      console.log("Data Imported!");
+      const sampleProducts = products.map((product) => {
+         return { ...product, user: adminUser };
+      });
+
+      await Products.insertMany(sampleProducts);
+
+      console.log("Data Imported!".green.inverse);
       process.exit();
    } catch (error) {
       console.error(`${error}`);
@@ -32,8 +37,9 @@ const importData = async () => {
 const destroyData = async () => {
    try {
       await User.deleteMany();
+      await Products.deleteMany();
 
-      console.log("Data Destroyed!");
+      console.log("Data Destroyed!".red.inverse);
       process.exit();
    } catch (error) {
       console.error(`${error}`);
