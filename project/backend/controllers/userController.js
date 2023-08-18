@@ -1,6 +1,7 @@
 import asyncHandler from "../middleware/asyncHandler.js";
 import User from "../models/userModel.js";
 import jwt from "jsonwebtoken";
+import generateToken from "../utils/generateToken.js";
 //@desc     Auth user & get token
 //@route    GET /api/users/login
 //@access   Public
@@ -10,7 +11,7 @@ const authUser = asyncHandler(async (req, res) => {
    const { email, password } = req.body;
    const user = await User.findOne({ email });
    if (user && (await user.matchPassword(password))) {
-      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
          expiresIn: "30d",
       });
 
@@ -22,11 +23,13 @@ const authUser = asyncHandler(async (req, res) => {
          maxAge: 30 * 24 * 60 * 60 * 1000, //30 days
       });
 
+      // generateToken(res, user._id);
       res.json({
          _id: user._id,
          name: user.name,
          email: user.email,
          isAdmin: user.isAdmin,
+         // token: req.cookies.jwt,
       });
    } else {
       res.status(401);
