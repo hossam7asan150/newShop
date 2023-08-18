@@ -32,5 +32,5 @@ app.use(notFound);
 app.use(errorHandler);
 
 app.listen(port, () => {
-   console.log(`Serve at http://localhost:${port}`.zalgo);
+   console.log(`Serve at http://localhost:${port}`);
 });
