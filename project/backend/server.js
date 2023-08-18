@@ -1,4 +1,5 @@
 import express from "express";
+import colors from "colors";
 
 import dotenv from "dotenv";
 dotenv.config();
@@ -31,5 +32,5 @@ app.use(notFound);
 app.use(errorHandler);
 
 app.listen(port, () => {
-   console.log(`Serve at http://localhost:${port}`);
+   console.log(`Serve at http://localhost:${port}`.zalgo);
 });
