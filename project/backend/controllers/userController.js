@@ -2,12 +2,11 @@ import asyncHandler from "../middleware/asyncHandler.js";
 import User from "../models/userModel.js";
 import jwt from "jsonwebtoken";
 import generateToken from "../utils/generateToken.js";
+
 //@desc     Auth user & get token
 //@route    GET /api/users/login
 //@access   Public
 const authUser = asyncHandler(async (req, res) => {
-   // res.send("Login User");
-   // console.log(req.body);
    const { email, password } = req.body;
    const user = await User.findOne({ email });
    if (user && (await user.matchPassword(password))) {
@@ -29,7 +28,6 @@ const authUser = asyncHandler(async (req, res) => {
 //@route POST /api/users
 //@access Public
 const registerUser = asyncHandler(async (req, res) => {
-   // res.send("Register User");
    const { name, email, password } = req.body;
    const userExists = await User.findOne({ email });
    if (userExists) {
@@ -42,6 +40,7 @@ const registerUser = asyncHandler(async (req, res) => {
       password,
    });
    if (user) {
+      generateToken(res, user._id);
       res.status(201).json({
          _id: user._id,
          name: user.name,
@@ -83,7 +82,6 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 //@route GET /api/users
 //@access Private/Admin
 const getUsers = asyncHandler(async (req, res) => {
-   // res.send("Get All Users");
    const users = await User.find({});
    res.json(users);
 });
@@ -99,7 +97,6 @@ const deleteUser = asyncHandler(async (req, res) => {
 //@route GET /api/users/:id
 //@access Private/Admin
 const getUserById = asyncHandler(async (req, res) => {
-   // res.send("Get User By ID");
    const user = await User.findById(req.params.id);
    if (user) {
       res.json(user);
@@ -113,7 +110,7 @@ const getUserById = asyncHandler(async (req, res) => {
 //@route PUT /api/users/:id
 //@access Private/Admin
 const updateUser = asyncHandler(async (req, res) => {
-   // res.send("Update User");
+   res.send("Update User");
 });
 
 export {
