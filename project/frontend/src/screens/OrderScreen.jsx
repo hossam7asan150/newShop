@@ -1,5 +1,5 @@
 import { Link, useParams } from "react-router-dom";
-import { Row, Col, ListGroup, Image, Card } from "react-bootstrap";
+import { Row, Col, ListGroup, Image, Card, Button } from "react-bootstrap";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import {
@@ -54,6 +54,11 @@ const OrderScreen = () => {
          }
       }
    }, [order, paypal, paypalDispatch, errorPayPal, loadingPayPal]);
+
+   function onApprove() {}
+   function onApproveTest() {}
+   function onError() {}
+   function createOrder() {}
 
    return isLoading ? (
       <Loader />
@@ -170,6 +175,31 @@ const OrderScreen = () => {
                            <Col>${order.totalPrice}</Col>
                         </Row>
                      </ListGroup.Item>
+                     {!order.isPaid && (
+                        <ListGroup.Item>
+                           {loadingPay && <Loader />}
+                           {isPending ? (
+                              <Loader />
+                           ) : (
+                              <div>
+                                 <Button
+                                    // onClick={onApproveTest}
+                                    style={{ marginBottom: "10px" }}
+                                 >
+                                    Test
+                                 </Button>
+                                 <div>
+                                    <PayPalButtons
+                                       createOrder={createOrder}
+                                       onApprove={onApprove}
+                                       onApproveTest={onApproveTest}
+                                       onError={onError}
+                                    ></PayPalButtons>
+                                 </div>
+                              </div>
+                           )}
+                        </ListGroup.Item>
+                     )}
                   </ListGroup>
                </Card>
             </Col>
