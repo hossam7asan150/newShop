@@ -88,10 +88,10 @@ const OrderScreen = () => {
             return orderID;
          });
    }
-
    const deliverHandler = async () => {
       await deliverOrder(orderId);
       refetch();
+      toast.success("Order is delivered");
    };
 
    return isLoading ? (
