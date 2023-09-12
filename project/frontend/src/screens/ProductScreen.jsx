@@ -14,6 +14,7 @@ import Rating from "../components/Rating";
 import {
    useGetProductDetailsQuery,
    useCreateReviewMutation,
+   // useUpdateProductQtyMutation,
 } from "../slices/productsApiSlice";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
@@ -42,6 +43,21 @@ const ProductScreen = () => {
 
    const dispatch = useDispatch();
    const navigate = useNavigate();
+   // const addToCartHandler = async (e) => {
+   //    e.preventDefault();
+   //    try {
+   //       await updateProductQty({
+   //          productId,
+   //          qty,
+   //       });
+   //       refetch();
+   //       dispatch(addToCart({ ...product, qty: Number(qty) }));
+   //       navigate("/cart");
+   //       toast.success("updateProductQty");
+   //    } catch (err) {
+   //       toast.error(err?.data?.message || err.error);
+   //    }
+   // };
    const addToCartHandler = () => {
       dispatch(addToCart({ ...product, qty: Number(qty) }));
       navigate("/cart");

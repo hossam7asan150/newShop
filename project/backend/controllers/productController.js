@@ -89,6 +89,27 @@ const updateProduct = asyncHandler(async (req, res) => {
    }
 });
 
+// @desc    Update a product Qty
+// @route   PUT /api/products/:id
+// @access  Public
+const updateProductQty = asyncHandler(async (req, res) => {
+   // console.log("hello");
+   // res.send("test");
+   const { qty } = req.body;
+
+   const product = await Product.findById(req.params.id);
+
+   if (product) {
+      product.countInStock = product.countInStock - qty;
+
+      const updatedProduct = await product.save();
+      res.json(updatedProduct);
+   } else {
+      res.status(404);
+      throw new Error("Product not found");
+   }
+});
+
 // @desc    Delete a product
 // @route   DELETE /api/products/:id
 // @access  Private/Admin
@@ -149,8 +170,7 @@ const createProductReview = asyncHandler(async (req, res) => {
 // @route   GET /api/products/top
 // @access  Public
 const getTopProducts = asyncHandler(async (req, res) => {
-   const products = await Product.find({}).sort({ rating: -1 }).limit(3);
-
+   const products = await Product.find({}).sort({ rating: -1 }).limit(4);
    res.json(products);
 });
 
@@ -159,6 +179,7 @@ export {
    getProductById,
    createProduct,
    updateProduct,
+   updateProductQty,
    deleteProduct,
    createProductReview,
    getTopProducts,
