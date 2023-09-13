@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import { addToCart, removeFromCart } from "../slices/cartSlice";
 import { FaTrash } from "react-icons/fa";
+// import { useState } from "react";
 const CartScreen = () => {
    const navigate = useNavigate();
    const dispatch = useDispatch();
@@ -27,6 +28,14 @@ const CartScreen = () => {
    const checkoutHandler = () => {
       navigate("/login?redirect=shipping");
    };
+
+   // useState(() => {
+   //    cart.cartItems.forEach((item) => {
+   //       if (item.countInStock === 0) {
+   //          removeFromCartHandler(item._id);
+   //       }
+   //    });
+   // }, [cart.cartItems]);
 
    return (
       <>
